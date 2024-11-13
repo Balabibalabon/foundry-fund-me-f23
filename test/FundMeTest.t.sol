@@ -111,6 +111,28 @@ contract FundMeTest is Test {
         );
     }
 
+    function testWithfrawFromMultipleFundersCheaper() public funded {
+        //Arrange
+        uint160 numberOfFunders = 10; // uint160 與 address bits 數相同，在這邊當地址用
+        uint160 startingFunderIndex = 1;
+
+        for (uint160 i = startingFunderIndex; i < numberOfFunders; i++) {
+            hoax(address(i), SEND_VALUE);
+            fundMe.fund{value: SEND_VALUE}();
+        }
+        uint256 startingOwnerBalance = fundMe.getOwner().balance;
+        uint256 startingFundMeBalance = address(fundMe).balance;
+        // Act
+        vm.prank(fundMe.getOwner());
+        fundMe.cheaperwithdraw();
+        // Assert
+        assert(address(fundMe).balance == 0);
+        assertEq(
+            (startingOwnerBalance + startingFundMeBalance),
+            fundMe.getOwner().balance
+        );
+    }
+
     // 4 types of testing
     // 1. Unit: Testing a single function
     // 2. Integration: Testing multiple functions
