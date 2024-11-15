@@ -83,10 +83,7 @@ contract FundMeTest is Test {
         uint256 endingOwnerBalance = fundMe.getOwner().balance;
         uint256 endingFundMeBalance = address(fundMe).balance;
         assertEq(endingFundMeBalance, 0);
-        assertEq(
-            endingOwnerBalance,
-            (startingOwnerBalance + startingFundMeBalance)
-        );
+        assertEq(endingOwnerBalance, (startingOwnerBalance + startingFundMeBalance));
     }
 
     function testWithfrawFromMultipleFunders() public funded {
@@ -105,10 +102,7 @@ contract FundMeTest is Test {
         fundMe.withdraw();
         // Assert
         assert(address(fundMe).balance == 0);
-        assertEq(
-            (startingOwnerBalance + startingFundMeBalance),
-            fundMe.getOwner().balance
-        );
+        assertEq((startingOwnerBalance + startingFundMeBalance), fundMe.getOwner().balance);
     }
 
     function testWithfrawFromMultipleFundersCheaper() public funded {
@@ -127,10 +121,7 @@ contract FundMeTest is Test {
         fundMe.cheaperwithdraw();
         // Assert
         assert(address(fundMe).balance == 0);
-        assertEq(
-            (startingOwnerBalance + startingFundMeBalance),
-            fundMe.getOwner().balance
-        );
+        assertEq((startingOwnerBalance + startingFundMeBalance), fundMe.getOwner().balance);
     }
 
     // 4 types of testing
